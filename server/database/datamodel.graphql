@@ -1,0 +1,17 @@
+type Item {
+  id: ID! @unique
+  createdAt: DateTime!
+  name: String!
+  price: Float!
+  link: String
+  image: String
+  postedBy: User
+}
+
+type User {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+  password: String!
+  items: [Item!]!
+}
