@@ -85,25 +85,25 @@ class Item extends Component {
         <ImgHolder>
           <Image
             src={
-              this.props.image ||
+              this.props.item.image ||
               "https://d30y9cdsu7xlg0.cloudfront.net/png/42415-200.png"
             }
-            alt={this.props.title}
+            alt={this.props.item.name}
           />
         </ImgHolder>
         <Content>
-          <Title href={this.props.link}>{this.props.title}</Title>
+          <Title href={this.props.item.link}>{this.props.item.name}</Title>
           <HoriFlex>
-            <Price>${this.props.price}</Price>
+            <Price>${this.props.item.price}</Price>
             <Button
               bought
               first
-              onClick={() => console.log("copped " + this.props.title)}
+              onClick={() => console.log("copped " + this.props.item.name)}
             >
               Copped
             </Button>
             <Button
-              onClick={() => this.props.removeItem(this.props.id)}
+              onClick={() => this.props.removeItem(this.props.key)}
               // onClick={() => this.props.removeItem()}
             >
               Dropped
