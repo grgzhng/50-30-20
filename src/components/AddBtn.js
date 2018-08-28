@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
 import styled from "react-emotion";
 import colors from "../styles/colors";
 import Popover from "@material-ui/core/Popover";
-import TextField from "@material-ui/core/TextField";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 
@@ -52,6 +53,24 @@ const IconImg = styled("img")`
   margin: 0 0 0 10px;
 `;
 
+const ADD_ITEM = gql`
+  mutation AddItem(
+    $name: String!
+    $price: Number!
+    $image: String
+    $link: String
+  ) {
+    addItem(name: $name, price: $price, image: $image, link: $link) {
+      id
+      createdAt
+      name
+      price
+      image
+      link
+    }
+  }
+`;
+
 class AddBtn extends Component {
   state = {
     anchorEl: null,
@@ -79,22 +98,9 @@ class AddBtn extends Component {
     });
   };
 
-  handleSubmit = e => {
-    const item = {
-      title: this.state.name,
-      price: this.state.price,
-      link: this.state.link,
-      image: this.state.image
-    };
-    this.props.addItem(item);
-    this.setState({
-      image: ""
-    });
-    this.handleClose();
-    e.preventDefault();
-  };
-
   render() {
+    const { name, price, link, image } = this.state;
+
     return (
       <div>
         <Btn onClick={this.handleClick}>
@@ -135,10 +141,22 @@ class AddBtn extends Component {
               placeholder="Image"
               onChange={this.handleChange("image")}
             />
-            <BtnMUI type="submit" variant="contained">
+            {/* <BtnMUI type="submit" variant="contained">
               Add Item
               <IconImg src={require("../img/tick.png")} alt="" />
-            </BtnMUI>
+            </BtnMUI> */}
+
+            <Mutation
+              mutation={ADD_ITEM}
+              variables={{ name, price, link, image }}
+            >
+              {addItem => (
+                <BtnMUI onClick={addItem} variant="contained">
+                  Add Item
+                  <IconImg src={require("../img/tick.png")} alt="" />
+                </BtnMUI>
+              )}
+            </Mutation>
           </Form>
         </Popover>
       </div>
