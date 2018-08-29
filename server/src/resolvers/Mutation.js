@@ -49,15 +49,15 @@ async function login(parent, args, context, info) {
 }
 
 function addItem(parent, args, context, info) {
-  const userId = getUserId(context);
+  // const userId = getUserId(context);
   return context.db.mutation.createItem(
     {
       data: {
         name: args.name,
         price: args.price,
         image: args.image,
-        link: args.link,
-        postedBy: { connect: { id: userId } }
+        link: args.link
+        // postedBy: { connect: { id: userId } }
       }
     },
     info

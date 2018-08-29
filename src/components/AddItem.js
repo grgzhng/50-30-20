@@ -9,9 +9,9 @@ import Input from "@material-ui/core/Input";
 const ADD_ITEM = gql`
   mutation AddItem(
     $name: String!
-    $price: Number!
-    $image: String
+    $price: Float!
     $link: String
+    $image: String
   ) {
     addItem(name: $name, price: $price, link: $link, image: $image) {
       id
