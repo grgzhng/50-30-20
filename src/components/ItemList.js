@@ -12,6 +12,7 @@ const List = styled("div")`
 const ITEMS_QUERY = gql`
   {
     items {
+      id
       name
       price
       image
@@ -33,11 +34,7 @@ class ItemList extends Component {
           return (
             <List>
               {itemsToRender.map(item => (
-                <Item
-                  key={item.id}
-                  item={item}
-                  removeItem={id => this.props.removeItem(id)}
-                />
+                <Item key={item.id} item={item} />
               ))}
               ;
             </List>

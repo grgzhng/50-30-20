@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
 import styled from "react-emotion";
 import colors from "../styles/colors";
 
@@ -78,8 +80,20 @@ const Button = styled("button")`
   }
 `;
 
+const DELETE_ITEM = gql`
+  mutation DeleteItem($id: ID!) {
+    deleteItem(id: $id) {
+      id
+      name
+      price
+    }
+  }
+`;
+
 class Item extends Component {
   render() {
+    const id = this.props.item.id;
+
     return (
       <Card>
         <ImgHolder>
@@ -102,12 +116,15 @@ class Item extends Component {
             >
               Copped
             </Button>
-            <Button
+            <Mutation mutation={DELETE_ITEM} variables={{ id }}>
+              {deleteItem => <Button onClick={deleteItem}>Dropped</Button>}
+            </Mutation>
+            {/* <Button
               onClick={() => this.props.removeItem(this.props.key)}
               // onClick={() => this.props.removeItem()}
             >
               Dropped
-            </Button>
+            </Button> */}
           </HoriFlex>
         </Content>
       </Card>
