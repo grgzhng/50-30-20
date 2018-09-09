@@ -3,6 +3,7 @@ import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import styled from "react-emotion";
 import colors from "../styles/colors";
+import { ITEMS_QUERY } from "./ItemList";
 
 const Card = styled("div")`
   display: flex;
@@ -92,8 +93,6 @@ const DELETE_ITEM = gql`
 
 class Item extends Component {
   render() {
-    const id = this.props.item.id;
-
     return (
       <Card>
         <ImgHolder>
@@ -116,7 +115,19 @@ class Item extends Component {
             >
               Copped
             </Button>
-            <Mutation mutation={DELETE_ITEM} variables={{ id }}>
+            <Mutation
+              mutation={DELETE_ITEM}
+              variables={{ id: this.props.item.id }}
+              update={(cache, { data: { deleteItem } }) => {
+                const { items } = cache.readQuery({ query: ITEMS_QUERY });
+                cache.writeQuery({
+                  query: ITEMS_QUERY,
+                  data: {
+                    items: items.filter(item => item.id !== deleteItem.id)
+                  }
+                });
+              }}
+            >
               {deleteItem => <Button onClick={deleteItem}>Dropped</Button>}
             </Mutation>
             {/* <Button

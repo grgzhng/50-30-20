@@ -9,7 +9,7 @@ const List = styled("div")`
   flex-direction: column;
 `;
 
-const ITEMS_QUERY = gql`
+export const ITEMS_QUERY = gql`
   {
     items {
       id

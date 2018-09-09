@@ -5,6 +5,7 @@ import styled from "react-emotion";
 import Popover from "@material-ui/core/Popover";
 import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
+import { ITEMS_QUERY } from "./ItemList";
 
 const ADD_ITEM = gql`
   mutation AddItem(
@@ -122,6 +123,13 @@ class AddItem extends Component {
           <Mutation
             mutation={ADD_ITEM}
             variables={{ name, price, link, image }}
+            update={(cache, { data: { addItem } }) => {
+              const { items } = cache.readQuery({ query: ITEMS_QUERY });
+              cache.writeQuery({
+                query: ITEMS_QUERY,
+                data: { items: [...items, addItem] }
+              });
+            }}
           >
             {addItem => <Button onClick={addItem}>Submit</Button>}
           </Mutation>
