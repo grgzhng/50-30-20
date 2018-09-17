@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import Title from "./Title";
 import ItemList from "./ItemList";
 import AddItem from "./AddItem";
-import AddBtn from "./AddBtn";
 
 class App extends Component {
   constructor(props) {
@@ -14,9 +14,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <img src={require("../img/logo.jpg")} alt="" />
+        <Title />
         <ItemList removeItem={id => this.removeItem(id)} />
-        {this.state.add && <AddBtn />}
         {this.state.add && <AddItem />}
       </div>
     );

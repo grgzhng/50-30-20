@@ -25,6 +25,28 @@ const ADD_ITEM = gql`
   }
 `;
 
+const CenterDiv = styled("div")`
+  text-align: center;
+  margin: 5px;
+`;
+
+const FormDiv = styled("div")`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px 10px;
+  max-width: 360px;
+`;
+
+const CustomInput = styled(Input)`
+  max-width: 150px;
+  margin: 5px;
+`;
+
+const Dollar = styled("p")`
+  margin: 11px 0 0 5px;
+  color: #a7a7a7;
+`;
+
 class AddItem extends Component {
   state = {
     anchorEl: null,
@@ -67,7 +89,7 @@ class AddItem extends Component {
     const { name, price, link, image } = this.state;
 
     return (
-      <div>
+      <CenterDiv>
         <Button
           onClick={this.handleClick}
           variant="contained"
@@ -90,36 +112,37 @@ class AddItem extends Component {
             horizontal: "center"
           }}
         >
-          <div>
-            <Input
+          <FormDiv>
+            <CustomInput
               className="mb2"
               value={name}
               onChange={this.handleChange("name")}
               type="text"
               placeholder="Name"
             />
-            <Input
+            <Dollar>$</Dollar>
+            <CustomInput
               className="mb2"
               value={price}
               onChange={this.handleChange("price")}
-              type="number"
+              type="text"
               placeholder="Price"
             />
-            <Input
+            <CustomInput
               className="mb2"
               value={link}
               onChange={this.handleChange("link")}
               type="text"
               placeholder="Link"
             />
-            <Input
+            <CustomInput
               className="mb2"
               value={image}
               onChange={this.handleChange("image")}
               type="text"
               placeholder="Image"
             />
-          </div>
+          </FormDiv>
           <Mutation
             mutation={ADD_ITEM}
             variables={{ name, price, link, image }}
@@ -134,7 +157,7 @@ class AddItem extends Component {
             {addItem => <Button onClick={addItem}>Submit</Button>}
           </Mutation>
         </Popover>
-      </div>
+      </CenterDiv>
     );
   }
 }
